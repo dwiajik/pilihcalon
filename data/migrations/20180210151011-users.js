@@ -2,7 +2,8 @@ let dbm;
 let type;
 let seed;
 
-const tableName = 'users';
+const SCHEMA = 'pilihcalon';
+const TABLE = 'users';
 
 const setup = function(options, seedLink) {
   dbm = options.dbmigrate;
@@ -12,7 +13,7 @@ const setup = function(options, seedLink) {
 
 const up = function(db, callback) {
   db.runSql(`
-    CREATE TABLE ${tableName} (
+    CREATE TABLE ${SCHEMA}.${TABLE} (
       id BIGSERIAL,
       email VARCHAR NOT NULL,
       password VARCHAR NOT NULL,
@@ -26,18 +27,18 @@ const up = function(db, callback) {
     );
   `, callback);
   db.runSql(`
-    CREATE INDEX ${tableName}_name_idx
-    ON ${tableName} USING gin (name gin_trgm_ops);
+    CREATE INDEX ${TABLE}_name_idx
+    ON ${TABLE} USING gin (name gin_trgm_ops);
   `, callback);
   db.runSql(`
-    CREATE INDEX ${tableName}_email_hash_idx
-    ON ${tableName} USING HASH (email);
+    CREATE INDEX ${TABLE}_email_hash_idx
+    ON ${TABLE} USING HASH (email);
   `, callback);
 };
 
 const down = function(db, callback) {
   db.runSql(`
-    DROP TABLE ${tableName};
+    DROP TABLE ${SCHEMA}.${TABLE};
   `, callback);
 };
 
