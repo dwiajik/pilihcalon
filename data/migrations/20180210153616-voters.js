@@ -1,17 +1,7 @@
-let dbm;
-let type;
-let seed;
-
 const SCHEMA = 'pilihcalon';
 const TABLE = 'voters';
 
-const setup = function(options, seedLink) {
-  dbm = options.dbmigrate;
-  type = dbm.dataType;
-  seed = seedLink;
-};
-
-const up = function(db, callback) {
+const up = (db, callback) => {
   db.runSql(`
     CREATE TABLE ${SCHEMA}.${TABLE} (
       id BIGSERIAL,
@@ -54,19 +44,13 @@ const up = function(db, callback) {
   `, callback);
 };
 
-const down = function(db, callback) {
+const down = (db, callback) => {
   db.runSql(`
     DROP TABLE ${SCHEMA}.${TABLE};
   `, callback);
 };
 
-const _meta = {
-  "version": 1
-};
-
 module.exports = {
-  setup,
   up,
   down,
-  _meta,
 };
